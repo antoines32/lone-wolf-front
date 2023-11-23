@@ -7,7 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthService } from '../auth.service';
-import { HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -21,13 +21,21 @@ export class LoginComponent {
     userMail: ['', Validators.required],
     userPwd: ['', Validators.required],
   });
-  constructor(private fb: FormBuilder, private authService: AuthService) {}
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   submit() {
     if (this.loginForm.valid) {
       const userLogin = this.loginForm.value;
-      this.authService.login(userLogin).subscribe((result) => {
-        localStorage.setItem('accesToken', result.access_token);
+      this.authService.login(userLogin).subscribe({
+        next: (result) => {
+          localStorage.setItem('accesToken', result.access_token);
+          this.router.navigate(['..']);
+        },
+        error: (err) => console.log(err),
       });
     }
   }

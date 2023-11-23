@@ -5,5 +5,14 @@
 body {
   background-color: #252526;
   color:beige;
+  input {
+    border: 2px solid #ab7d16;
+    background-color: #4f4f4f;
+    box-shadow: inset 0 0 0.5em black;
+    &:focus {
+      outline: none;
+      box-shadow: inset 0 0 0.2em black;
+    }
+  }
 }
 
