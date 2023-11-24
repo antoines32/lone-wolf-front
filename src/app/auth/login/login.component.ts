@@ -25,15 +25,15 @@ export class LoginComponent {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   submit() {
     if (this.loginForm.valid) {
       const userLogin = this.loginForm.value;
       this.authService.login(userLogin).subscribe({
         next: (result) => {
-          localStorage.setItem('accesToken', result.access_token);
-          this.router.navigate(['..']);
+          localStorage.setItem('accessToken', result.access_token);
+          this.router.navigate(['home']);
         },
         error: (err) => console.log(err),
       });

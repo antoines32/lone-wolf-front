@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-register',
@@ -27,13 +28,13 @@ export class RegisterComponent {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   submit() {
     if (this.registerForm.valid) {
       const user = this.registerForm.value;
-      this.authService.signOn(user).subscribe({
-        next: (user) => this.router.navigate(['../login']),
+      this.authService.signUp(user).subscribe({
+        next: (user: User) => this.router.navigate(['../login']),
         error: (err) => console.log(err),
       });
     }
