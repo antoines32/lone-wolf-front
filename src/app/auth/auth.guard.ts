@@ -2,16 +2,17 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { map, take } from 'rxjs';
+import { User } from '../users/models/user';
 
-export const authGuard: CanActivateFn = (route, state) => {
+export const AuthGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const authService = inject(AuthService);
   return authService.authenticatedUser$.pipe(
     take(1),
-    map(user => {
+    map((user) => {
       // check if route is restricted by role
       const { roles } = route.data;
-      if (user && user.role && roles.includes(user.role)) {
+      if (user && user.userRole && roles.includes(user.userRole)) {
         return true;
       }
       if (user) {
@@ -19,5 +20,5 @@ export const authGuard: CanActivateFn = (route, state) => {
       }
       return router.createUrlTree(['/login']);
     })
-  )
+  );
 };

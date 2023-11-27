@@ -9,7 +9,6 @@ import { AuthResponseData } from './models/auth-response-data';
 import { User } from '../users/models/user';
 import { StorageService } from '../core/storage.service';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -21,24 +20,28 @@ export class AuthService {
     @Inject(BASE_URL) private baseUrl: string,
     private router: Router,
     private storage: StorageService
-  ) { }
+  ) {}
 
   login(loginUser: LoginUser): Observable<any> {
-    return this.http.post<AuthResponseData>(`${this.baseUrl}/auth/login`, loginUser).pipe(
-      catchError(err => {
-        let errorMessage = 'An unknown error occurred!';
-        if (err.error.message === 'Bad credential') {
-          errorMessage = 'The email address or password you entered is invalid'
-        }
-        return throwError(() => new Error(errorMessage))
-      }),
-      tap(
-        (responseData: AuthResponseData) => {
-          this.storage.saveUserAndToken(responseData.authenticated_user, responseData.access_token);
+    return this.http
+      .post<AuthResponseData>(`${this.baseUrl}/auth/login`, loginUser)
+      .pipe(
+        catchError((err) => {
+          let errorMessage = 'An unknown error occurred!';
+          if (err.error.message === 'Bad credential') {
+            errorMessage =
+              'The email address or password you entered is invalid';
+          }
+          return throwError(() => new Error(errorMessage));
+        }),
+        tap((responseData: AuthResponseData) => {
+          this.storage.saveUserAndToken(
+            responseData.authenticated_user,
+            responseData.access_token
+          );
           this.authenticatedUser$.next(responseData.authenticated_user);
-        }
-      )
-    );
+        })
+      );
   }
 
   signUp(createUser: CreateUser): Observable<any> {
@@ -56,7 +59,7 @@ export class AuthService {
   }
 
   autoLogin() {
-    const connectedUser = this.storage.getUser()
+    const connectedUser = this.storage.getUser();
     if (connectedUser) {
       this.authenticatedUser$.next(connectedUser);
     }

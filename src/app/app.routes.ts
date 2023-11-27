@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { AuthGuard } from './auth/auth.guard';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { HomeComponent } from './home/home.component';
@@ -9,5 +10,10 @@ export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'user', component: UserProfileComponent, data: { roles: ['admin', 'user'] } }
+  {
+    path: 'user',
+    component: UserProfileComponent,
+    data: { roles: ['admin', 'user'] },
+    canActivate: [AuthGuard],
+  },
 ];

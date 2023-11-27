@@ -1,13 +1,21 @@
 <div class="text-slate-200 px-5">
   <h1 class="text-3xl my-5 text-center">Lone Wolf</h1>
   @if (result) {
-  <div><span>Bonjour {{currentUser.userName}} !</span></div>
-  <div>vous pouvez consulter votre profil <a routerLink="../user" class="text-blue-300">ici</a></div>
+  <div>
+    <span>Bonjour {{ currentUser.userName }} !</span>
+  </div>
+  <div>
+    vous pouvez consulter votre profil
+    <a routerLink="../user" class="text-blue-300">ici</a>
+  </div>
   }
   <p>
-    Vous pouvez vous <a routerLink="../register" class="text-blue-300">enregistrer</a> ou vous
+    Vous pouvez vous
+    <a routerLink="../register" class="text-blue-300">enregistrer</a> ou vous
     <a routerLink="../login" class="text-blue-300">connecter</a> !
   </p>
-  <p>Pour la déconnexion c'est ce <a (click)="logout()" class="text-blue-300">bouton</a></p>
-
+  <p>
+    Pour la déconnexion c'est ce
+    <a (click)="logout()" class="text-blue-300">bouton</a>
+  </p>
 </div>
