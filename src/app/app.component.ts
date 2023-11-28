@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -12,9 +13,10 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
 export class AppComponent implements OnInit {
   title = 'lone-wolf-front';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private auth: AuthService) { }
 
   ngOnInit(): void {
+    this.auth.autoLogin();
     this.router.navigate(['home']);
   }
 }

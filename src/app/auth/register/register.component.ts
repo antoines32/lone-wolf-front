@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
-import { User } from '../models/user';
+import { User } from '../../users/models/user';
 
 @Component({
   selector: 'app-register',
