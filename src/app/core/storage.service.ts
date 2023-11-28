@@ -4,17 +4,21 @@ import { Subscription } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class StorageService {
-
-  constructor() { }
+  constructor() {}
 
   saveUserAndToken(user: User, token: string): void {
     localStorage.removeItem('authenticatedUser');
     localStorage.removeItem('accessToken');
     localStorage.setItem('authenticatedUser', JSON.stringify(user));
     localStorage.setItem('accessToken', token);
+  }
+
+  saveUser(user: User) {
+    localStorage.removeItem('authenticatedUser');
+    localStorage.setItem('authenticatedUser', JSON.stringify(user));
   }
 
   getUser(): User | null {
@@ -32,5 +36,4 @@ export class StorageService {
   clean() {
     localStorage.clear();
   }
-
 }

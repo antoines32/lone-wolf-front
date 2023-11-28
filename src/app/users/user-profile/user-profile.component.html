@@ -1,9 +1,63 @@
 <div class="m-5">
-  <p>user-profile works!</p>
-  <div>nom : {{ user.userName }}</div>
-  <div>email : {{ user.userMail }}</div>
-  <div>password: ******</div>
-  <div>
+  <h1 class="text-xl text-slate-200">user-profile works!</h1>
+  <div class="my-5">
+    @if (!nameUpdate) {
+    <button
+      class="py-2 px-4 bg-slate-300 text-neutral-900 rounded-lg font-semibold hover:text-amber-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+      (click)="updateField('userName', user.userName)"
+    >
+      modif
+    </button>
+    <span class="ml-3">pseudo : {{ user.userName }}</span>
+    } @else {
+    <input type="text" [formControl]="nameControl" />
+    <button
+      class="py-2 px-4 bg-slate-300 text-neutral-900 rounded-lg font-semibold hover:text-amber-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+      (click)="validateField('userName')"
+    >
+      update
+    </button>
+    }
+  </div>
+  <div class="my-5">
+    @if (!mailUpdate) {
+    <button
+      class="py-2 px-4 bg-slate-300 text-neutral-900 rounded-lg font-semibold hover:text-amber-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+      (click)="updateField('userMail', user.userMail)"
+    >
+      modif
+    </button>
+    <span class="ml-3">email : {{ user.userMail }}</span>
+    } @else {
+    <input type="text" [formControl]="mailControl" />
+    <button
+      class="py-2 px-4 bg-slate-300 text-neutral-900 rounded-lg font-semibold hover:text-amber-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+      (click)="validateField('userMail')"
+    >
+      update
+    </button>
+    }
+  </div>
+  <div class="my-5">
+    @if (!pwdUpdate) {
+    <button
+      class="py-2 px-4 bg-slate-300 text-neutral-900 rounded-lg font-semibold hover:text-amber-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+      (click)="updateField('userPwd', '')"
+    >
+      modif
+    </button>
+    <span class="ml-3">password: ******</span>
+    } @else {
+    <input type="password" [formControl]="pwdControl" />
+    <button
+      class="py-2 px-4 bg-slate-300 text-neutral-900 rounded-lg font-semibold hover:text-amber-500 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+      (click)="validateField('userPwd')"
+    >
+      update
+    </button>
+    }
+  </div>
+  <div class="my-5">
     personnages :
     <ul>
       <li>perso 1</li>
