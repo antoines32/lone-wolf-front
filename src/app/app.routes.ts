@@ -8,11 +8,24 @@ import { UserProfileComponent } from './users/user-profile/user-profile.componen
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./auth/login/login.component').then((m) => m.LoginComponent),
+  },
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./auth/register/register.component').then(
+        (m) => m.RegisterComponent
+      ),
+  },
   {
     path: 'user',
-    component: UserProfileComponent,
+    loadComponent: () =>
+      import('./users/user-profile/user-profile.component').then(
+        (m) => m.UserProfileComponent
+      ),
     data: { roles: ['admin', 'user'] },
     canActivate: [AuthGuard],
   },

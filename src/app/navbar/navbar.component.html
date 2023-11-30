@@ -7,7 +7,24 @@
   >
     <div class="mx-auto max-w-7x1 px-2 sm:px-6 lg:px-8">
       <div class="relative flex h-16 items-center justify-between">
-        <button class="btn-nav">Bouton 1</button>
+        @for (route of routes; track route.route) { @if (currentUser) { @if
+        (route.isConnectedRoute) {
+        <a
+          class="btn-nav"
+          routerLink="/{{ route.route }}"
+          routerLinkActive="active-link"
+        >
+          {{ route.label }}
+        </a>
+        } } @else { @if (!route.isConnectedRoute) {
+        <a
+          class="btn-nav"
+          routerLink="/{{ route.route }}"
+          routerLinkActive="active-link"
+        >
+          {{ route.label }}
+        </a>
+        } } }
       </div>
     </div>
   </div>
