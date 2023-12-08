@@ -1,0 +1,33 @@
+<nav
+  id="navbar"
+  class="bg-gray-500 m-6 shadow-2xl shadow-black border-4 border-l-slate-300 border-t-slate-300 border-b-slate-500 border-r-slate-500 shadow-lg-inner sticky"
+>
+  <div
+    class="border-4 border-r-slate-300 border-b-slate-300 border-t-slate-400 border-l-slate-500"
+  >
+    <div class="mx-auto max-w-7x1 px-2 sm:px-6 lg:px-8">
+      <div class="relative flex h-16 items-center justify-between">
+        @for (route of routes; track route.route) { @if (currentUser) { @if
+        (route.isConnectedRoute) { @if (route.route === 'logout') {
+        <button (click)="logout()" class="btn-nav">{{ route.route }}</button>
+        }
+        <a
+          class="btn-nav"
+          routerLink="/{{ route.route }}"
+          routerLinkActive="active-link"
+        >
+          {{ route.label }}
+        </a>
+        } } @else { @if (!route.isConnectedRoute) {
+        <a
+          class="btn-nav"
+          routerLink="/{{ route.route }}"
+          routerLinkActive="active-link"
+        >
+          {{ route.label }}
+        </a>
+        } } }
+      </div>
+    </div>
+  </div>
+</nav>

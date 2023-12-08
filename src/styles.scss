@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 body {
-  background-color: #252526;
-  color:beige;
+  background-color: #3e3e3f;
+  color: white;
   input {
     border: 2px solid #ab7d16;
     background-color: #4f4f4f;
@@ -14,5 +14,26 @@ body {
       box-shadow: inset 0 0 0.2em black;
     }
   }
-}
 
+  .btn-nav {
+    @apply border border-slate-300 border-solid;
+    /*border: 1px solid #d6d5cebd;*/
+    padding: 5px 10px;
+    /* background-color: #710000; */
+    box-shadow: 2px 4px 5px rgb(29, 29, 29);
+    background-image: url("/assets/images/marbre-noir.jpg");
+    &:hover {
+      box-shadow: 5px 7px 8px rgb(29, 29, 29);
+      position: relative;
+      top: -1px;
+      left: -1px;
+      color: goldenrod;
+    }
+    &:focus {
+      box-shadow: inset 2px 3px 3px rgb(29, 29, 29);
+      position: relative;
+      top: 1px;
+      left: 1px;
+    }
+  }
+}
