@@ -8,7 +8,9 @@
     <div class="mx-auto max-w-7x1 px-2 sm:px-6 lg:px-8">
       <div class="relative flex h-16 items-center justify-between">
         @for (route of routes; track route.route) { @if (currentUser) { @if
-        (route.isConnectedRoute) {
+        (route.isConnectedRoute) { @if (route.route === 'logout') {
+        <button (click)="logout()" class="btn-nav">{{ route.route }}</button>
+        }
         <a
           class="btn-nav"
           routerLink="/{{ route.route }}"

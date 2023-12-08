@@ -36,11 +36,8 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  navigate(routeName: string) {
-    if (routeName === 'logout') {
-      this.auth.logout();
-    } else {
-      this.router.navigate([`${routeName}`]);
-    }
+  logout() {
+    this.auth.logout();
+    this.router.navigate(['home']);
   }
 }
