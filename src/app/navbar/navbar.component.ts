@@ -20,6 +20,7 @@ export class NavbarComponent implements OnInit {
     // connected routes
     { route: 'home', label: 'Home', isConnectedRoute: true },
     { route: 'user', label: 'Mon profil', isConnectedRoute: true },
+    { route: 'adventure-menu', label: 'Aventure', isConnectedRoute: true },
     { route: 'logout', label: 'Déconnexion', isConnectedRoute: true },
   ];
   currentUser!: User | null;

@@ -1,0 +1,45 @@
+<div id="adventure-create">
+  <mat-stepper #stepper class="stepper">
+    <mat-step [stepControl]="nameForm">
+      <form [formGroup]="nameForm">
+        <ng-template matStepLabel>Fill out your name</ng-template>
+        <p>Bienvenue dans cette aventure de Loup Solitaire !</p>
+        <p>Tout d'abord, veuillez choisir un nom pour votre personnage.</p>
+        <input type="text" formControlName="characterName" />
+        <div>
+          <button matStepperNext>Suivant</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="skillForm">
+      <form [formGroup]="skillForm">
+        <ng-template matStepLabel>Fill out your name</ng-template>
+        <p>
+          Au cours de l'initiation qui vous a permis de devenir un Seigneur Kaï,
+          vous avez acquis une force exceptionnelle ; les deux éléments
+          essentiels de cette force sont représentés par votre HABILETÉ AU
+          COMBAT et VOTRE ENDURANCE. Avant d'entreprendre votre mission, il vous
+          faudra mesurer exactement le degré d'efficacité de votre entraînement.
+        </p>
+        <div class="mb-5">
+          <label for="endurance"> ENDURANCE : </label>
+          <input type="number" formControlName="endurance" id="endurance" />
+          <button (click)="rollEndurance()">lancer dé</button>
+        </div>
+        <div class="mb-5">
+          <label for="skill-points"> HABILETÉ : </label>
+          <input
+            type="number"
+            formControlName="skillPoints"
+            id="skill-points"
+          />
+          <button (click)="rollSkillPoints()">lancer dé</button>
+        </div>
+
+        <div>
+          <button matStepperNext>Suivant</button>
+        </div>
+      </form>
+    </mat-step>
+  </mat-stepper>
+</div>

@@ -26,4 +26,22 @@ export const routes: Routes = [
     data: { roles: ['admin', 'user'] },
     canActivate: [AuthGuard],
   },
+  {
+    path: 'adventure-menu',
+    loadComponent: () =>
+      import('./adventure/adventure-menu/adventure-menu.component').then(
+        (m) => m.AdventureMenuComponent
+      ),
+    data: { roles: ['admin', 'user'] },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'adventure-create',
+    loadComponent: () =>
+      import('./adventure/adventure-create/adventure-create.component').then(
+        (m) => m.AdventureCreateComponent
+      ),
+    data: { roles: ['admin', 'user'] },
+    canActivate: [AuthGuard],
+  },
 ];
