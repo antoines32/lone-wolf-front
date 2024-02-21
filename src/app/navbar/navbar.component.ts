@@ -22,16 +22,14 @@ export class NavbarComponent implements OnInit {
     { route: 'user', label: 'Mon profil', isConnectedRoute: true },
     { route: 'logout', label: 'Déconnexion', isConnectedRoute: true },
   ];
-  currentUser!: User;
+  currentUser!: User | null;
 
   constructor(private router: Router, private auth: AuthService) {}
 
   ngOnInit(): void {
     this.auth.authenticatedUser$.subscribe({
       next: (user) => {
-        if (user) {
-          this.currentUser = user;
-        }
+        this.currentUser = user;
       },
     });
   }

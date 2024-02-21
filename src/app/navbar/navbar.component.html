@@ -9,8 +9,8 @@
       <div class="relative flex h-16 items-center justify-between">
         @for (route of routes; track route.route) { @if (currentUser) { @if
         (route.isConnectedRoute) { @if (route.route === 'logout') {
-        <button (click)="logout()" class="btn-nav">{{ route.route }}</button>
-        }
+        <button (click)="logout()" class="btn-nav">{{ route.label }}</button>
+        } @else {
         <a
           class="btn-nav"
           routerLink="/{{ route.route }}"
@@ -18,7 +18,7 @@
         >
           {{ route.label }}
         </a>
-        } } @else { @if (!route.isConnectedRoute) {
+        } } } @else { @if (!route.isConnectedRoute) {
         <a
           class="btn-nav"
           routerLink="/{{ route.route }}"
