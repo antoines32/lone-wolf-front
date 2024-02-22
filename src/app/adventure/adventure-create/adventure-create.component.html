@@ -2,7 +2,7 @@
   <mat-stepper #stepper class="stepper">
     <mat-step [stepControl]="nameForm">
       <form [formGroup]="nameForm">
-        <ng-template matStepLabel>Fill out your name</ng-template>
+        <ng-template matStepLabel>Nom de personnage</ng-template>
         <p>Bienvenue dans cette aventure de Loup Solitaire !</p>
         <p>Tout d'abord, veuillez choisir un nom pour votre personnage.</p>
         <input type="text" formControlName="characterName" />
@@ -13,7 +13,7 @@
     </mat-step>
     <mat-step [stepControl]="skillForm">
       <form [formGroup]="skillForm">
-        <ng-template matStepLabel>Fill out your name</ng-template>
+        <ng-template matStepLabel>Caractéristiques</ng-template>
         <p>
           Au cours de l'initiation qui vous a permis de devenir un Seigneur Kaï,
           vous avez acquis une force exceptionnelle ; les deux éléments
@@ -38,6 +38,77 @@
 
         <div>
           <button matStepperNext>Suivant</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="kaiDisciplineForm">
+      <form [formGroup]="kaiDisciplineForm">
+        <ng-template matStepLabel>Disciplines Kaï</ng-template>
+        <p>
+          Au cours des siècles, les Moines Kaï ont appris à maîtriser toutes les
+          techniques du guerrier. Ces techniques sont connues sous le nom de
+          Disciplines Kaï et enseignées aux Seigneurs Kaï. Pour votre part, vous
+          n'avez été initié qu'à cinq des techniques décrites ci-dessous. Il
+          vous appartient de choisir vous-même ces cinq disciplines. Chaque
+          Discipline Kaï peut vous être utile à un moment ou à un autre de votre
+          quête et votre choix devra être le plus judicieux possible : dans
+          certaines circonstances, une habile mise en pratique de l'une de ces
+          techniques peut vous sauver la vie.
+        </p>
+        <div class="mb-5">
+          <label for="first-disc"> 1ere Discipline : </label>
+          <select formControlName="firstKai" id="first-disc">
+            @for (kai of kaiDisciplines; track kai) {
+            <option [ngValue]="kai" [hidden]="kai.isSelected">
+              {{ kai.name }}
+            </option>
+            }
+          </select>
+          <p>{{ descriptionFirstDisc }}</p>
+        </div>
+        <div class="mb-5">
+          <label for="second-disc"> 2eme Discipline : </label>
+          <select formControlName="secondKai" id="second-disc">
+            @for (kai of kaiDisciplines; track kai) {
+            <option [ngValue]="kai" [hidden]="kai.isSelected">
+              {{ kai.name }}
+            </option>
+            }
+          </select>
+          <p>{{ descriptionSecondDisc }}</p>
+        </div>
+        <div class="mb-5">
+          <label for="third-disc"> 3eme Discipline : </label>
+          <select formControlName="thirdKai" id="third-disc">
+            @for (kai of kaiDisciplines; track kai) {
+            <option [ngValue]="kai" [hidden]="kai.isSelected">
+              {{ kai.name }}
+            </option>
+            }
+          </select>
+          <p>{{ descriptionThirdDisc }}</p>
+        </div>
+        <div class="mb-5">
+          <label for="fourth-disc"> 4eme Discipline : </label>
+          <select formControlName="fourthKai" id="fourth-disc">
+            @for (kai of kaiDisciplines; track kai) {
+            <option [ngValue]="kai" [hidden]="kai.isSelected">
+              {{ kai.name }}
+            </option>
+            }
+          </select>
+          <p>{{ descriptionFourthDisc }}</p>
+        </div>
+        <div class="mb-5">
+          <label for="fifth-disc"> 5eme Discipline : </label>
+          <select formControlName="fifthKai" id="fifth-disc">
+            @for (kai of kaiDisciplines; track kai) {
+            <option [ngValue]="kai" [hidden]="kai.isSelected">
+              {{ kai.name }}
+            </option>
+            }
+          </select>
+          <p>{{ descriptionFifthDisc }}</p>
         </div>
       </form>
     </mat-step>

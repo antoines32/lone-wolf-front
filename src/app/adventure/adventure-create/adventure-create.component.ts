@@ -10,6 +10,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { DiceService } from '../../core/dice.service';
+import { AdventureService } from '../adventure.service';
+import { KaiDiscipline } from '../model/kai-discipline.model';
 
 @Component({
   selector: 'app-adventure-create',
@@ -28,11 +30,11 @@ export class AdventureCreateComponent implements OnInit {
     skillPoints: [{ value: null, disabled: true }, Validators.required],
   });
   kaiDisciplineForm: FormGroup = this.fb.group({
-    firstKai: [{ value: '', disabled: true }, Validators.required],
-    secondKai: [{ value: '', disabled: true }, Validators.required],
-    thirdKai: [{ value: '', disabled: true }, Validators.required],
-    fourthKai: [{ value: '', disabled: true }, Validators.required],
-    fifthKai: [{ value: '', disabled: true }, Validators.required],
+    firstKai: [{ value: null }, Validators.required],
+    secondKai: [{ value: null }, Validators.required],
+    thirdKai: [{ value: null }, Validators.required],
+    fourthKai: [{ value: null }, Validators.required],
+    fifthKai: [{ value: null }, Validators.required],
   });
   itemForm: FormGroup = this.fb.group({
     item: [{ value: '', disabled: true }, Validators.required],
@@ -59,10 +61,65 @@ export class AdventureCreateComponent implements OnInit {
     { name: 'Lance', desc: 'arme' },
     { name: '12 Couronnes', desc: "Pièces d'or" },
   ];
+  kaiDisciplines: KaiDiscipline[] = [];
+  kaiDisciplinesSelected: KaiDiscipline[] = [];
+  descriptionFirstDisc = '';
+  descriptionSecondDisc = '';
+  descriptionThirdDisc = '';
+  descriptionFourthDisc = '';
+  descriptionFifthDisc = '';
 
-  constructor(private fb: FormBuilder, private dice: DiceService) {}
+  constructor(
+    private fb: FormBuilder,
+    private dice: DiceService,
+    private adventureService: AdventureService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.adventureService.getKaiDisciplines().subscribe({
+      next: (kais) => {
+        this.kaiDisciplines = kais;
+        for (let kai of this.kaiDisciplines) {
+          kai.isSelected = false;
+        }
+      },
+    });
+    this.kaiDisciplineForm.controls['firstKai'].valueChanges.subscribe(
+      (val) => {
+        let index = this.kaiDisciplines.indexOf(val);
+        //this.kaiDisciplines[index].isSelected = true;
+        this.descriptionFirstDisc = this.kaiDisciplines[index].description;
+      }
+    );
+    this.kaiDisciplineForm.controls['secondKai'].valueChanges.subscribe(
+      (val) => {
+        let index = this.kaiDisciplines.indexOf(val);
+        //this.kaiDisciplines[index].isSelected = true;
+        this.descriptionSecondDisc = this.kaiDisciplines[index].description;
+      }
+    );
+    this.kaiDisciplineForm.controls['thirdKai'].valueChanges.subscribe(
+      (val) => {
+        let index = this.kaiDisciplines.indexOf(val);
+        //this.kaiDisciplines[index].isSelected = true;
+        this.descriptionThirdDisc = this.kaiDisciplines[index].description;
+      }
+    );
+    this.kaiDisciplineForm.controls['fourthKai'].valueChanges.subscribe(
+      (val) => {
+        let index = this.kaiDisciplines.indexOf(val);
+        //this.kaiDisciplines[index].isSelected = true;
+        this.descriptionFourthDisc = this.kaiDisciplines[index].description;
+      }
+    );
+    this.kaiDisciplineForm.controls['fifthKai'].valueChanges.subscribe(
+      (val) => {
+        let index = this.kaiDisciplines.indexOf(val);
+        //this.kaiDisciplines[index].isSelected = true;
+        this.descriptionFifthDisc = this.kaiDisciplines[index].description;
+      }
+    );
+  }
 
   rollSkillPoints() {
     if (this.skillForm.controls['skillPoints'].value == null) {
