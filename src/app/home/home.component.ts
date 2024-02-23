@@ -9,31 +9,37 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink, UserProfileComponent],
+  imports: [CommonModule, RouterLink],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit, OnDestroy {
+
   isLogged!: Subscription;
   result: boolean = false;
   currentUser!: User;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
     this.isLogged = this.authService.authenticatedUser$.subscribe({
-      next: (user) => {
+      next: user => {
         if (user) {
           this.currentUser = user;
           this.result = true;
         } else {
           this.result = false;
         }
-      },
+      }
     });
   }
 
-  ngOnDestroy(): void {
-    this.isLogged.unsubscribe();
+  logout(): void {
+    this.authService.logout();
   }
+
+  ngOnDestroy(): void {
+    this.isLogged.unsubscribe()
+  }
+
 }

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { BASE_URL } from '../core/constants';
 import { StorageService } from '../core/storage.service';
 import { KaiDiscipline } from './model/kai-discipline.model';
+import { RandomItem } from './model/rarndom-item.model';
 
 @Injectable({
   providedIn: 'root',
@@ -17,13 +18,17 @@ export class AdventureService {
     private http: HttpClient,
     @Inject(BASE_URL) private baseUrl: string,
     private storage: StorageService
-  ) {}
+  ) { }
 
-  createNewGame(bookName: String) {}
+  createNewGame(bookName: String) { }
 
   getKaiDisciplines(): Observable<KaiDiscipline[]> {
     return this.http.get<KaiDiscipline[]>(`${this.baseUrl}/kai-discipline`, {
       headers: this.header,
     });
+  }
+
+  getRandomItemByBookName(bookName: string): Observable<RandomItem[]> {
+    return this.http.get<RandomItem[]>(`${this.baseUrl}/item?bookName=${bookName}`, { headers: this.header });
   }
 }

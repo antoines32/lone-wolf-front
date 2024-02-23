@@ -12,6 +12,7 @@ import {
 import { DiceService } from '../../core/dice.service';
 import { AdventureService } from '../adventure.service';
 import { KaiDiscipline } from '../model/kai-discipline.model';
+import { RandomItem } from '../model/rarndom-item.model';
 
 @Component({
   selector: 'app-adventure-create',
@@ -22,6 +23,7 @@ import { KaiDiscipline } from '../model/kai-discipline.model';
 })
 export class AdventureCreateComponent implements OnInit {
   isLinear = true;
+  bookName = 'FlightFromTheDark'
   nameForm: FormGroup = this.fb.group({
     characterName: ['', Validators.required],
   });
@@ -37,43 +39,28 @@ export class AdventureCreateComponent implements OnInit {
     fifthKai: [{ value: null }, Validators.required],
   });
   itemForm: FormGroup = this.fb.group({
-    item: [{ value: '', disabled: true }, Validators.required],
+    item: [{ value: null, disabled: true }, Validators.required],
     gold: [{ value: null, disabled: true }, Validators.required],
   });
-  randomItems: any[] = [
-    { name: 'Glaive', desc: 'arme' },
-    { name: 'Epée', desc: 'arme' },
-    {
-      name: 'Casque',
-      desc: "(Objet spécial) il ajoute 2 points d'ENDURANCE a votre total",
-    },
-    { name: '2 repas', desc: 'ils prennent 2 places dans votre inventaire' },
-    {
-      name: 'Cotte de maille',
-      desc: "(Objets Spéciaux), elle ajoute 4 points d'ENDURANCE à votre total.",
-    },
-    { name: "Masse d'arme", desc: 'arme' },
-    {
-      name: 'Potion de guérison',
-      desc: "Elle rend 4 points d'ENDURANCE lorsque vous la buvez à l'issue d'un combat, mais vous ne disposez que d'une seule dose.",
-    },
-    { name: 'Baton', desc: 'arme' },
-    { name: 'Lance', desc: 'arme' },
-    { name: '12 Couronnes', desc: "Pièces d'or" },
-  ];
+  randomItems: RandomItem[] = [];
   kaiDisciplines: KaiDiscipline[] = [];
-  kaiDisciplinesSelected: KaiDiscipline[] = [];
   descriptionFirstDisc = '';
   descriptionSecondDisc = '';
   descriptionThirdDisc = '';
   descriptionFourthDisc = '';
   descriptionFifthDisc = '';
+  descriptionRandomItem = '';
+  secondWeapon = '';
+  supplementaryItem = '';
+  secondSupplementaryItem = '';
+  isGettingGold = false;
+  masteredWeapon = '';
 
   constructor(
     private fb: FormBuilder,
     private dice: DiceService,
     private adventureService: AdventureService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.adventureService.getKaiDisciplines().subscribe({
@@ -84,38 +71,36 @@ export class AdventureCreateComponent implements OnInit {
         }
       },
     });
+    this.adventureService.getRandomItemByBookName(this.bookName).subscribe({
+      next: (items) => this.randomItems = items
+    })
     this.kaiDisciplineForm.controls['firstKai'].valueChanges.subscribe(
       (val) => {
         let index = this.kaiDisciplines.indexOf(val);
-        //this.kaiDisciplines[index].isSelected = true;
         this.descriptionFirstDisc = this.kaiDisciplines[index].description;
       }
     );
     this.kaiDisciplineForm.controls['secondKai'].valueChanges.subscribe(
       (val) => {
         let index = this.kaiDisciplines.indexOf(val);
-        //this.kaiDisciplines[index].isSelected = true;
         this.descriptionSecondDisc = this.kaiDisciplines[index].description;
       }
     );
     this.kaiDisciplineForm.controls['thirdKai'].valueChanges.subscribe(
       (val) => {
         let index = this.kaiDisciplines.indexOf(val);
-        //this.kaiDisciplines[index].isSelected = true;
         this.descriptionThirdDisc = this.kaiDisciplines[index].description;
       }
     );
     this.kaiDisciplineForm.controls['fourthKai'].valueChanges.subscribe(
       (val) => {
         let index = this.kaiDisciplines.indexOf(val);
-        //this.kaiDisciplines[index].isSelected = true;
         this.descriptionFourthDisc = this.kaiDisciplines[index].description;
       }
     );
     this.kaiDisciplineForm.controls['fifthKai'].valueChanges.subscribe(
       (val) => {
         let index = this.kaiDisciplines.indexOf(val);
-        //this.kaiDisciplines[index].isSelected = true;
         this.descriptionFifthDisc = this.kaiDisciplines[index].description;
       }
     );
@@ -137,5 +122,77 @@ export class AdventureCreateComponent implements OnInit {
     if (this.itemForm.controls['gold'].value == null) {
       this.itemForm.controls['gold'].setValue(this.dice.rollADice());
     }
+  }
+
+  rollItem() {
+    if (this.itemForm.controls['item'].value == null) {
+      const resultDice = this.dice.rollADice();
+      const selectedItem = this.randomItems.find(item => item.diceNumber === resultDice);
+      if (selectedItem) {
+        this.itemForm.controls['item'].setValue(selectedItem.name);
+        this.descriptionRandomItem = selectedItem.description;
+        switch (selectedItem.diceNumber) {
+          case 0:
+            this.secondWeapon = selectedItem.name;
+            break;
+
+          case 1:
+            this.secondWeapon = selectedItem.name;
+            break;
+
+          case 2:
+            this.supplementaryItem = selectedItem.name;
+            break;
+
+          case 3:
+            this.supplementaryItem = 'repas';
+            this.secondSupplementaryItem = 'repas';
+            break;
+
+          case 4:
+            this.supplementaryItem = selectedItem.name;
+            break;
+
+          case 5:
+            this.secondWeapon = selectedItem.name;
+            break;
+
+          case 6:
+            this.supplementaryItem = selectedItem.name;
+            break;
+
+          case 7:
+            this.secondWeapon = selectedItem.name;
+            break;
+
+          case 8:
+            this.secondWeapon = selectedItem.name;
+            break;
+
+          case 9:
+            this.isGettingGold = true;
+            break;
+
+          default:
+            break;
+        }
+      }
+    }
+  }
+
+  rollWeapon() {
+    if (this.masteredWeapon === '') {
+      const resultDice = this.dice.rollADice();
+      const masteredWeapons = [
+        'POIGNARD', 'LANCE', "MASSE D'ARMES", 'SABRE', 'MARTEAU DE GUERRE', 'ÉPÉE', 'HACHE', 'ÉPEE', 'BATON', 'GLAIVE'
+      ];
+      this.masteredWeapon = masteredWeapons[resultDice];
+      for (let kai of this.kaiDisciplines) {
+        if (kai.name === 'Maîtrise des armes') {
+          kai.name = `Maîtrise des armes : ${this.masteredWeapon}`;
+        }
+      }
+    }
+
   }
 }

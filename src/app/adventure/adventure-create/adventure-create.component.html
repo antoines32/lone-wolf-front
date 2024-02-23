@@ -7,7 +7,7 @@
         <p>Tout d'abord, veuillez choisir un nom pour votre personnage.</p>
         <input type="text" formControlName="characterName" />
         <div>
-          <button matStepperNext>Suivant</button>
+          <button matStepperNext class="btn-nav">Suivant</button>
         </div>
       </form>
     </mat-step>
@@ -24,20 +24,16 @@
         <div class="mb-5">
           <label for="endurance"> ENDURANCE : </label>
           <input type="number" formControlName="endurance" id="endurance" />
-          <button (click)="rollEndurance()">lancer dé</button>
+          <button (click)="rollEndurance()" class="btn-nav">lancer dé</button>
         </div>
         <div class="mb-5">
           <label for="skill-points"> HABILETÉ : </label>
-          <input
-            type="number"
-            formControlName="skillPoints"
-            id="skill-points"
-          />
-          <button (click)="rollSkillPoints()">lancer dé</button>
+          <input type="number" formControlName="skillPoints" id="skill-points" />
+          <button (click)="rollSkillPoints()" class="btn-nav">lancer dé</button>
         </div>
-
         <div>
-          <button matStepperNext>Suivant</button>
+          <button matStepperPrevious class="btn-nav mr-3">Précédent</button>
+          <button matStepperNext class="btn-nav">Suivant</button>
         </div>
       </form>
     </mat-step>
@@ -60,11 +56,14 @@
           <select formControlName="firstKai" id="first-disc">
             @for (kai of kaiDisciplines; track kai) {
             <option [ngValue]="kai" [hidden]="kai.isSelected">
-              {{ kai.name }}
+              <span>{{ kai.name }}</span>
             </option>
             }
           </select>
           <p>{{ descriptionFirstDisc }}</p>
+          @if (kaiDisciplineForm.controls['firstKai'].value.name === "Maîtrise des armes" && masteredWeapon === '') {
+          <button class="btn-nav" (click)="rollWeapon()">jeter les dés</button>
+          }
         </div>
         <div class="mb-5">
           <label for="second-disc"> 2eme Discipline : </label>
@@ -110,7 +109,82 @@
           </select>
           <p>{{ descriptionFifthDisc }}</p>
         </div>
+        <div>
+          <button matStepperPrevious class="btn-nav mr-3">Précédent</button>
+          <button matStepperNext class="btn-nav">Suivant</button>
+        </div>
       </form>
+    </mat-step>
+    <mat-step [stepControl]="itemForm">
+      <form [formGroup]="itemForm">
+        <ng-template matStepLabel>Inventaire</ng-template>
+        <p>Au départ de votre aventure, vous êtes vêtu d'une tunique et d'une cape de Seigneur Kaï, toutes deux de
+          couleur verte. Le matériel dont vous disposez pour assurer votre survie est par ailleurs réduit au minimum.
+          Vous possédez une Hache et un Sac à Dos qui contient un Repas.</p>
+        <p>Vous disposez également, accrochée à votre ceinture, d'une Bourse de Cuir qui contient des Pièces d'Or.</p>
+        <div>
+          <label for="start-gold"> Couronnes de départ (or) : </label>
+          <input type="number" id="start-gold" formControlName="gold">
+          <button (click)="rollGold()" class="btn-nav">lancer le dé</button>
+        </div>
+        <p>Dans les ruines fumantes du monastère détruit, vous avez découvert une Carte Géographique qui vous permet de
+          vous orienter. Cette carte est soigneusement rangée dans une poche intérieure de votre tunique.</p>
+        <p>Vous découvrez également un autre objet :</p>
+        <div>
+          <label for="random-item"> Objet de départ : </label>
+          <input type="text" id="random-item" formControlName="item">
+          <button (click)="rollItem()" class="btn-nav">lancer le dé</button>
+        </div>
+        <p>{{descriptionRandomItem}}</p>
+      </form>
+      <div>
+        <button matStepperPrevious class="btn-nav mr-3">Précédent</button>
+        <button matStepperNext class="btn-nav">Suivant</button>
+      </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Résumé</ng-template>
+      <div class="summary-field">
+        Nom du Héros : {{nameForm.controls['characterName'].value}}
+      </div>
+      <div class="summary-field">
+        Habileté : {{skillForm.controls['skillPoints'].value}}
+      </div>
+      <div class="summary-field">
+        Endurance : {{skillForm.controls['endurance'].value}}
+      </div>
+      <div class="summary-field">
+        <span>Disciplines Kaï : </span>
+        <ul class="pl-5">
+          <li>{{kaiDisciplineForm.controls['firstKai'].value.name}}</li>
+          <li>{{kaiDisciplineForm.controls['secondKai'].value.name}}</li>
+          <li>{{kaiDisciplineForm.controls['thirdKai'].value.name}}</li>
+          <li>{{kaiDisciplineForm.controls['fourthKai'].value.name}}</li>
+          <li>{{kaiDisciplineForm.controls['fifthKai'].value.name}}</li>
+        </ul>
+      </div>
+      <div class="summary-field">
+        @if (isGettingGold) {
+        <span>Couronnes de départ : {{itemForm.controls['gold'].value + 12}}</span>
+        } @else {
+        <span>Couronnes de départ : {{itemForm.controls['gold'].value}}</span>
+        }
+      </div>
+      <div class="summary-field">
+        <span>Inventaire : </span>
+        <ul class="pl-5">
+          <li>repas</li>
+          <li>{{supplementaryItem}}</li>
+          <li>{{secondSupplementaryItem}}</li>
+        </ul>
+      </div>
+      <div class="summary-field">
+        <span>Armes : </span>
+        <ul class="pl-5">
+          <li>Hache</li>
+          <li>{{secondWeapon}}</li>
+        </ul>
+      </div>
     </mat-step>
   </mat-stepper>
 </div>
